@@ -1,1 +1,2 @@
 # rock-paper-scissors
+A simple JS project from [this](https://www.theodinproject.com/lessons/foundations-rock-paper-scissors) curriculum. Currently does not have a GUI. It will be added when I revisit this code in another lesson.
