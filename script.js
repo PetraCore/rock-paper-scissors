@@ -38,36 +38,69 @@ function testComputerChoice(num) {
 }
 
 function capitalize(text) {
+    if (!text) {
+        return '';
+    }
+
     return text[0].toUpperCase() + text.slice(1).toLowerCase();
 }
 
 function validateUserInput(input) {
+    if(input === null) {
+        return null;
+    }
+
     let formattedInput = capitalize(input);
 
     const choices = ['Rock', 'Paper', 'Scissors']
 
     while (!choices.includes(formattedInput)) {
-        let message = `Wrong input ("${input}")! Available choices:`;
+        let message = `Wrong input ("${input}") !\nAvailable choices:`;
         for (i in choices) {
             message += ` "${choices[i]}",`;
         }
 
         input = prompt(message);
+        if (input === null) {
+            return null;
+        }
+
         formattedInput = capitalize(input);
     }
     return formattedInput;
 }
 
+function getPlayerChoice(message) {
+    return validateUserInput(prompt(message));
+}
+
+function handleVictory(message) {
+    console.log(message);
+    alert(message);
+    return true;
+}
+
 function handleTie(message) {
-    let playerSelection = validateUserInput(prompt(message));
-    return playRound(playerSelection, getComputerChoice());
+    console.log("Tie - rematch!");
+    return playRound(getPlayerChoice(message), getComputerChoice());
+}
+
+function handleDefeat(message) {
+    console.log(message);
+    alert(message);
+    return false;
 }
 
 function playRound(playerSelection, computerSelection) {
 
     playerSelection = validateUserInput(playerSelection); 
+    console.log(`Player chose ${playerSelection}.`);
+    if (playerSelection !== null) {
+        console.log(`Computer chose ${computerSelection}.`);
+        alert(`Computer chose ${computerSelection}.`);
+    }
 
-    const WIN_MESSAGE = `You Win! ${playerSelection} beats ${computerSelection}`;
+    const VICTORY_MESSAGE = `You Win! ${playerSelection} beats ${computerSelection}`;
     const TIE_MESSAGE = `Tie! Let's have a rematch - make your move!`;
     const DEFEAT_MESSAGE = `You Lose! ${computerSelection} beats ${playerSelection}`;
 
@@ -79,13 +112,11 @@ function playRound(playerSelection, computerSelection) {
                 break;
 
                 case 'Paper':
-                    console.log(DEFEAT_MESSAGE);
-                    return 0;
+                    return handleDefeat(DEFEAT_MESSAGE);
                 break;
 
                 case 'Scissors':
-                    console.log(WIN_MESSAGE);
-                    return 1;
+                    return handleVictory(VICTORY_MESSAGE);
                 break;
             }
         break;
@@ -93,8 +124,7 @@ function playRound(playerSelection, computerSelection) {
         case 'Paper':
             switch(computerSelection) {
                 case 'Rock':
-                    console.log(WIN_MESSAGE);
-                    return 1;
+                    return handleVictory(VICTORY_MESSAGE);
                 break;
 
                 case 'Paper':
@@ -102,8 +132,7 @@ function playRound(playerSelection, computerSelection) {
                 break;
 
                 case 'Scissors':
-                    console.log(DEFEAT_MESSAGE);
-                    return 0;
+                    return handleDefeat(DEFEAT_MESSAGE);
                 break;
             }
         break;
@@ -111,13 +140,11 @@ function playRound(playerSelection, computerSelection) {
         case 'Scissors':
             switch(computerSelection) {
                 case 'Rock':
-                    console.log(DEFEAT_MESSAGE);
-                    return 0;
+                    return handleDefeat(DEFEAT_MESSAGE);
                 break;
 
                 case 'Paper':
-                    console.log(WIN_MESSAGE);
-                    return 1;
+                    return handleVictory(VICTORY_MESSAGE);
                 break;
 
                 case 'Scissors':
@@ -126,11 +153,60 @@ function playRound(playerSelection, computerSelection) {
             }
         break;
     } 
+
+    return null;
+}
+
+function game(rounds = 5) {
+    let playerPoints = 0;
+    let computerPoints = 0;
+
+    for (let i = 0; i < rounds; i++) {
+
+        console.group(`Round ${i+1}`);
+
+        let computerSelection = getComputerChoice();
+        let playerSelection = getPlayerChoice('Make your choice.');
+        if (playerSelection === null) {
+            console.log('Exiting...');
+            return;
+        }
+
+        let roundResult = playRound(playerSelection, computerSelection);
+
+        if (roundResult === true) {
+            playerPoints++;
+        } else if (roundResult === false) {
+            computerPoints++;
+        } else {
+            console.log('Exiting...');
+            return;
+        }
+        
+        let message = `Round over! Player: ${playerPoints}, Computer: ${computerPoints}.`; 
+        console.log(message);
+        alert(message);
+        console.groupEnd();
+    }
+
+    if (playerPoints > computerPoints) {
+        console.log('Player won!');
+        if(confirm('You win! Next round?')) {
+            game(rounds);
+        }
+
+    } else if (computerPoints > playerPoints) {
+        console.log('Computer won!');
+        if (confirm('You lose! Do you want a rematch?')) {
+            game(rounds);
+        }
+    } else {
+        console.log('Nobody won - Tie!');
+        if (confirm('Tie! Do you want a rematch?')) {
+            game(rounds);
+        }
+    }
 }
 
 testComputerChoice(100);
-
-let computerSelection = getComputerChoice();
-console.log(`Computer chose ${computerSelection}.`);
-
-playRound('SDHEJHR', computerSelection);
+game();
