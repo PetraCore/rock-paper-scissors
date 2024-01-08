@@ -55,8 +55,9 @@ function validateUserInput(input) {
     while (!choices.includes(formattedInput)) {
         let message = `Wrong input ("${input}") !\nAvailable choices:`;
         for (i in choices) {
-            message += ` "${choices[i]}",`;
+            message += ` "${choices[i]}", `;
         }
+        message = message.slice(0, message.length - 2) + '.';
 
         input = prompt(message);
         if (input === null) {
