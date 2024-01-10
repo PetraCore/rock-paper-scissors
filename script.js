@@ -208,4 +208,7 @@ function game(rounds = 5) {
 }
 
 testComputerChoice(100);
-game();
+
+window.addEventListener('load', () => {
+    game();
+});
