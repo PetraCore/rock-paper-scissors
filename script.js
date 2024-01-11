@@ -73,30 +73,27 @@ function getPlayerChoice(message) {
     return validateUserInput(prompt(message));
 }
 
+const info = document.querySelector('#info');
+
 function handleVictory(message) {
-    console.log(message);
-    alert(message);
+    info.textContent = message;
     return true;
 }
 
 function handleTie(message) {
-    console.log("Tie - rematch!");
-    return playRound(getPlayerChoice(message), getComputerChoice());
+    info.textContent = message;
 }
 
 function handleDefeat(message) {
-    console.log(message);
-    alert(message);
+    info.textContent = message;
     return false;
 }
 
 function playRound(playerSelection, computerSelection) {
 
     playerSelection = validateUserInput(playerSelection); 
-    console.log(`Player chose ${playerSelection}.`);
     if (playerSelection !== null) {
-        console.log(`Computer chose ${computerSelection}.`);
-        alert(`Computer chose ${computerSelection}.`);
+        info.textContent = `Computer chose ${computerSelection}.`;
     }
 
     const VICTORY_MESSAGE = `You Win! ${playerSelection} beats ${computerSelection}`;
