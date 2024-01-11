@@ -1,6 +1,5 @@
 function getComputerChoice() {
     const choices = ['Rock', 'Paper', 'Scissors'];
-    return 'Scissors';
     return choices[Math.floor(Math.random() * choices.length)];
 }
 
@@ -191,7 +190,6 @@ function game(event, rounds = 5) {
 
     roundCounter++;
     if(roundCounter < rounds) {
-        console.log(`${roundCounter} < ${rounds}`);
         return;
     }
 
