@@ -73,32 +73,36 @@ function getPlayerChoice(message) {
     return validateUserInput(prompt(message));
 }
 
-const info = document.querySelector('#info');
+const playerChoiceBox = document.querySelector('#playerChoice');
+const computerChoiceBox = document.querySelector('#computerChoice');
+const roundResultBox = document.querySelector('#roundResult');
+const scoreBox = document.querySelector('#score');
 
 function handleVictory(message) {
-    info.textContent += message;
+    roundResultBox.textContent = message;
     return true;
 }
 
 function handleTie(message) {
-    info.textContent += message;
+    roundResultBox.textContent = message;
 }
 
 function handleDefeat(message) {
-    info.textContent += message;
+    roundResultBox.textContent = message;
     return false;
 }
 
 function playRound(playerSelection, computerSelection) {
 
     playerSelection = validateUserInput(playerSelection); 
+    playerChoiceBox.textContent = `Player chose ${playerSelection}`;
     if (playerSelection !== null) {
-        info.textContent = `Computer chose ${computerSelection}.\n`;
+        computerChoiceBox.textContent = `Computer chose ${computerSelection}`;
     }
 
-    const VICTORY_MESSAGE = `You Win! ${playerSelection} beats ${computerSelection}\n`;
-    const TIE_MESSAGE = `Tie! Let's have a rematch - make your move!\n`;
-    const DEFEAT_MESSAGE = `You Lose! ${computerSelection} beats ${playerSelection}\n`;
+    const VICTORY_MESSAGE = `You Win! ${playerSelection} beats ${computerSelection}`;
+    const TIE_MESSAGE = `Tie! Let's have a rematch - make your move!`;
+    const DEFEAT_MESSAGE = `You Lose! ${computerSelection} beats ${playerSelection}`;
 
     switch(playerSelection) {
         case 'Rock':
@@ -182,23 +186,22 @@ function game(event, rounds = 5) {
         return;
     }
 
-    roundCounter++;
-    let message = `Round over! Player: ${playerPoints}, Computer: ${computerPoints}.\n`;
-    info.textContent += message;
+    scoreBox.textContent = `Player: ${playerPoints} | Computer: ${computerPoints}`;
 
+    roundCounter++;
     if(roundCounter < rounds) {
         console.log(`${roundCounter} < ${rounds}`);
         return;
     }
 
-    info.textContent += 'Game Over.\n';
+    scoreBox.textContent += ' - Game Over. ';
 
     if (playerPoints > computerPoints) {
-        info.textContent += 'Player won!';
+        scoreBox.textContent += 'Player won!';
     } else if (computerPoints > playerPoints) {
-        info.textContent += 'Computer won!';
+        scoreBox.textContent += 'Computer won!';
     } else {
-        info.textContent += 'Tie!';
+        scoreBox.textContent += 'Tie!';
     }
     
     console.log('Restarting...');
