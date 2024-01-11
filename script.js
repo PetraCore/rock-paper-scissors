@@ -76,16 +76,16 @@ function getPlayerChoice(message) {
 const info = document.querySelector('#info');
 
 function handleVictory(message) {
-    info.textContent = message;
+    info.textContent += message;
     return true;
 }
 
 function handleTie(message) {
-    info.textContent = message;
+    info.textContent += message;
 }
 
 function handleDefeat(message) {
-    info.textContent = message;
+    info.textContent += message;
     return false;
 }
 
@@ -93,12 +93,12 @@ function playRound(playerSelection, computerSelection) {
 
     playerSelection = validateUserInput(playerSelection); 
     if (playerSelection !== null) {
-        info.textContent = `Computer chose ${computerSelection}.`;
+        info.textContent = `Computer chose ${computerSelection}.\n`;
     }
 
-    const VICTORY_MESSAGE = `You Win! ${playerSelection} beats ${computerSelection}`;
-    const TIE_MESSAGE = `Tie! Let's have a rematch - make your move!`;
-    const DEFEAT_MESSAGE = `You Lose! ${computerSelection} beats ${playerSelection}`;
+    const VICTORY_MESSAGE = `You Win! ${playerSelection} beats ${computerSelection}\n`;
+    const TIE_MESSAGE = `Tie! Let's have a rematch - make your move!\n`;
+    const DEFEAT_MESSAGE = `You Lose! ${computerSelection} beats ${playerSelection}\n`;
 
     switch(playerSelection) {
         case 'Rock':
@@ -153,77 +153,63 @@ function playRound(playerSelection, computerSelection) {
     return null;
 }
 
-function game(rounds = 5) {
-    let playerPoints = 0;
-    let computerPoints = 0;
+let playerPoints = 0;
+let computerPoints = 0;
+let roundCounter = 0;
 
-    for (let i = 0; i < rounds; i++) {
+function game(event, rounds = 5) {
+    const targetId = event.target.id;
+    let roundResult;
 
-        console.group(`Round ${i+1}`);
-
-        let computerSelection = getComputerChoice();
-        let playerSelection = getPlayerChoice('Make your choice.');
-        if (playerSelection === null) {
-            console.log('Exiting...');
-            return;
-        }
-
-        let roundResult = playRound(playerSelection, computerSelection);
-
-        if (roundResult === true) {
-            playerPoints++;
-        } else if (roundResult === false) {
-            computerPoints++;
-        } else {
-            console.log('Exiting...');
-            return;
-        }
-        
-        let message = `Round over! Player: ${playerPoints}, Computer: ${computerPoints}.`; 
-        console.log(message);
-        alert(message);
-        console.groupEnd();
+    switch (targetId) {
+        case 'rockBtn':
+            roundResult = playRound('Rock', getComputerChoice());
+        break;
+        case 'paperBtn':
+            roundResult = playRound('Paper', getComputerChoice());
+        break;
+        case 'scissorsBtn':
+            roundResult = playRound('Scissors', getComputerChoice());
+        break;
+        default: return;
     }
+
+    if (roundResult === true) {
+        playerPoints++;
+    } else if (roundResult === false) {
+        computerPoints++;
+    } else {
+        return;
+    }
+
+    roundCounter++;
+    let message = `Round over! Player: ${playerPoints}, Computer: ${computerPoints}.\n`;
+    info.textContent += message;
+
+    if(roundCounter < rounds) {
+        console.log(`${roundCounter} < ${rounds}`);
+        return;
+    }
+
+    info.textContent += 'Game Over.\n';
 
     if (playerPoints > computerPoints) {
-        console.log('Player won!');
-        if(confirm('You win! Next round?')) {
-            game(rounds);
-        }
-
+        info.textContent += 'Player won!';
     } else if (computerPoints > playerPoints) {
-        console.log('Computer won!');
-        if (confirm('You lose! Do you want a rematch?')) {
-            game(rounds);
-        }
+        info.textContent += 'Computer won!';
     } else {
-        console.log('Nobody won - Tie!');
-        if (confirm('Tie! Do you want a rematch?')) {
-            game(rounds);
-        }
+        info.textContent += 'Tie!';
     }
+    
+    console.log('Restarting...');
+
+    playerPoints = 0;
+    computerPoints = 0;
+    roundCounter = 0;
 }
 
 // testComputerChoice(100);
 
-// window.addEventListener('load', () => {
-//     game();
-// });
-
 const options = document.querySelector('#options');
 
-options.addEventListener('click', (event) => {
-    const targetId = event.target.id;
-
-    switch (targetId) {
-        case 'rockBtn':
-            playRound('Rock', getComputerChoice());
-        break;
-        case 'paperBtn':
-            playRound('Paper', getComputerChoice());
-        break;
-        case 'scissorsBtn':
-            playRound('Scissors', getComputerChoice());
-        break;
-    }
-});
+options.addEventListener('click', game);
