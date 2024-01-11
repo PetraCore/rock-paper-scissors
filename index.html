@@ -4,19 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .info {
+            margin: 8px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello there!</h1>
-    <p>Press Ctrl+Shift+J to open console.</p>
-    <div id="options">
-        <button id="rockBtn">Rock</button>
-        <button id="paperBtn">Paper</button>
-        <button id="scissorsBtn">Scissors</button>
-    </div>
-    <p id="playerChoice"></p>
-    <p id="computerChoice"></p>
-    <p id="roundResult"></p>
-    <p id="score"></p>
+        <div id="playerChoice" class="info"></div>
+        <div id="computerChoice" class="info"></div>
+        <div id="options">
+            <button id="rockBtn">Rock</button>
+            <button id="paperBtn">Paper</button>
+            <button id="scissorsBtn">Scissors</button>
+        </div>
+        <div id="score" class="info"></div>
+        <div id="roundResult" class="info"></div>
     <script src="script.js"></script>
 </body>
 </html>
