@@ -194,21 +194,60 @@ function game(event, rounds = 5) {
         return;
     }
 
-    scoreBox.textContent += ' - Game Over. ';
+    gameOver();
+}
+
+function gameOver() {
+    const choiceButtons = document.querySelectorAll('#options > button');
+
+    choiceButtons.forEach((button) => {
+        button.disabled = true;
+    });
+
+    const resetBtn = document.createElement('button');
+    resetBtn.addEventListener('click', resetGame);
+    resetBtn.setAttribute('class', 'gameOver');
+
+    const gameOverBox = document.createElement('div');
+    gameOverBox.setAttribute('class', 'gameOver info');
+    gameOverBox.textContent = 'Game Over: ';
 
     if (playerPoints > computerPoints) {
-        scoreBox.textContent += 'Player won!';
+        gameOverBox.textContent += 'You win!';
+        resetBtn.textContent = "Next round?";
     } else if (computerPoints > playerPoints) {
-        scoreBox.textContent += 'Computer won!';
+        gameOverBox.textContent += 'Computer wins!';
+        resetBtn.textContent = "Revenge?";
     } else {
-        scoreBox.textContent += 'Tie!';
+        gameOverBox.textContent += 'Tie!';
+        resetBtn.textContent = "Rematch?";
     }
-    
-    console.log('Restarting...');
 
+
+    const body = document.querySelector('body');
+    body.appendChild(gameOverBox);
+    body.appendChild(resetBtn);
+}
+
+function resetGame() {
     playerPoints = 0;
     computerPoints = 0;
     roundCounter = 0;
+
+    const endGameUI = document.querySelectorAll('.gameOver');
+    endGameUI.forEach(element => {
+        element.remove(); 
+    });
+
+    const infoBoxes = document.querySelectorAll('.info');
+    infoBoxes.forEach(element => {
+        element.textContent = '';
+    });
+
+    const choiceButtons = document.querySelectorAll('#options > button');
+    choiceButtons.forEach((button) => {
+        button.disabled = false;
+    });
 }
 
 // testComputerChoice(100);
