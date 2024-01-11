@@ -1,5 +1,6 @@
 function getComputerChoice() {
     const choices = ['Rock', 'Paper', 'Scissors'];
+    return 'Scissors';
     return choices[Math.floor(Math.random() * choices.length)];
 }
 
@@ -199,9 +200,13 @@ function game(event, rounds = 5) {
 
 function gameOver() {
     const choiceButtons = document.querySelectorAll('#options > button');
-
     choiceButtons.forEach((button) => {
         button.disabled = true;
+    });
+
+    const infoBoxes = document.querySelectorAll('.info');
+    infoBoxes.forEach(element => {
+        element.setAttribute('class', 'info faded');
     });
 
     const resetBtn = document.createElement('button');
@@ -242,6 +247,7 @@ function resetGame() {
     const infoBoxes = document.querySelectorAll('.info');
     infoBoxes.forEach(element => {
         element.textContent = '';
+        element.setAttribute('class', 'info');
     });
 
     const choiceButtons = document.querySelectorAll('#options > button');
