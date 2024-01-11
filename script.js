@@ -207,8 +207,26 @@ function game(rounds = 5) {
     }
 }
 
-testComputerChoice(100);
+// testComputerChoice(100);
 
-window.addEventListener('load', () => {
-    game();
+// window.addEventListener('load', () => {
+//     game();
+// });
+
+const options = document.querySelector('#options');
+
+options.addEventListener('click', (event) => {
+    const targetId = event.target.id;
+
+    switch (targetId) {
+        case 'rockBtn':
+            playRound('Rock', getComputerChoice());
+        break;
+        case 'paperBtn':
+            playRound('Paper', getComputerChoice());
+        break;
+        case 'scissorsBtn':
+            playRound('Scissors', getComputerChoice());
+        break;
+    }
 });
