@@ -1,2 +1,8 @@
 # rock-paper-scissors
-A simple JS project from [this](https://www.theodinproject.com/lessons/foundations-rock-paper-scissors) curriculum. Currently does not have a GUI. It will be added when I revisit this code in another lesson.
+This project is a part of my journey through The Odin Project's curriculum.
+
+You can check it out live [here](https://petracore.github.io/rock-paper-scissors/).
+
+## Lessons covered
+- [Part I](https://www.theodinproject.com/lessons/foundations-rock-paper-scissors)
+- [Part II](https://www.theodinproject.com/lessons/foundations-revisiting-rock-paper-scissors)
