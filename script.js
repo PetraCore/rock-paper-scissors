@@ -23,8 +23,8 @@ function handleDefeat(message) {
 }
 
 function playRound(playerSelection, computerSelection) {
-    playerChoiceBox.textContent = `Player chose ${playerSelection}`;
-    computerChoiceBox.textContent = `Computer chose ${computerSelection}`;
+    playerChoiceBox.textContent = `You choose ${playerSelection}`;
+    computerChoiceBox.textContent = `Computer chooses ${computerSelection}`;
 
     const VICTORY_MESSAGE = `You Win! ${playerSelection} beats ${computerSelection}`;
     const TIE_MESSAGE = `Tie! Let's have a rematch - make your move!`;
@@ -112,7 +112,7 @@ function game(event, rounds = 5) {
         return;
     }
 
-    scoreBox.textContent = `Player: ${playerPoints} | Computer: ${computerPoints}`;
+    scoreBox.textContent = `You: ${playerPoints} | Computer: ${computerPoints}`;
 
     roundCounter++;
     if(roundCounter < rounds) {
@@ -170,7 +170,9 @@ function resetGame() {
 
     const infoBoxes = document.querySelectorAll('.info');
     infoBoxes.forEach(element => {
-        element.textContent = '';
+        element.textContent = (element.id === 'score')
+        ? `You: ${playerPoints} | Computer: ${computerPoints}`
+        : '';
         element.setAttribute('class', 'info');
     });
 
